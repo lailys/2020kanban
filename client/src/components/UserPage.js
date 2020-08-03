@@ -23,19 +23,14 @@ class UserPage extends Component {
         user: this.props.user,
       });
     }
-    const socket = opensocket("http://localhost:8080");
+    const socket = opensocket("/");
     socket.on("task", (data) => {
       if (data.action === "create") {
         this.fetchUserInfo();
         // this.props.fetchUsers();
       }
     });
-    socket.on("taskChange", (data) => {
-      if (data.action === "create") {
-        this.fetchUserInfo();
-        // this.props.fetchUsers();
-      }
-    });
+
     socket.on("taskChange", (data) => {
       if (data.action === "create") {
         this.fetchUserInfo();

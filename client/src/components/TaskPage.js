@@ -37,14 +37,14 @@ class TaskPage extends Component {
     }
     if (this.props.task.pic !== "") {
       this.setState({
-        pic: `http://localhost:8080/${this.props.task.pic}`,
+        pic: `/${this.props.task.pic}`,
       });
     } else {
       this.setState({
         pic: "",
       });
     }
-    const socket = opensocket("http://localhost:8080");
+    const socket = opensocket("/");
     socket.on("taskComment", (data) => {
       if (data.action === "create" ) {
         this.fetchComments();
@@ -116,7 +116,7 @@ class TaskPage extends Component {
         formData.append(key, this.state.image[key]);
       });
       fetch(
-        `http://localhost:8080/taskImg/${this.props.user}-${this.props.task._id}`,
+        `/taskImg/${this.props.user}-${this.props.task._id}`,
         {
           method: "POST",
           headers: {
@@ -140,7 +140,7 @@ class TaskPage extends Component {
   };
   participate = (e) => {
     e.preventDefault();
-    fetch("http://localhost:8080/task-members", {
+    fetch("/task-members", {
       method: "POST",
       headers: {
         Authorization: "Bearer " + this.props.token,
@@ -166,7 +166,7 @@ class TaskPage extends Component {
   submitComment = (e) => {
     e.preventDefault();
     this.setState({ newComment: {} });
-    fetch(`http://localhost:8080/task-comment`, {
+    fetch(`/task-comment`, {
       method: "POST",
       headers: {
         Authorization: "Bearer " + this.props.token,
@@ -194,7 +194,7 @@ this.setState({newComment:{}})
   submitChange = (e) => {
     e.preventDefault();
     if (this.props.token) {
-      fetch("http://localhost:8080/update-task", {
+      fetch("/update-task", {
         method: "POST",
         headers: {
           Authorization: "Bearer " + this.props.token,

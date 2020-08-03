@@ -11,7 +11,7 @@ class Task extends Component {
   };
   componentDidMount = () => {
     console.log(this.props.task,"+++++++++++")
-    const socket = opensocket("http://localhost:8080");
+    const socket = opensocket("/");
     this.fetchMembers();
     this.setState({
       deadline: !this.props.task.deadline

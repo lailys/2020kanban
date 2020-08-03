@@ -47,7 +47,7 @@ class App extends Component {
     const token = localStorage.getItem("token");
     const expiryDate = localStorage.getItem("expiryDate");
     const userId = localStorage.getItem("userId");
-    const socket = opensocket("http://localhost:8080");
+    const socket = opensocket("/");
     const remainingMilliseconds =
       new Date(expiryDate).getTime() - new Date().getTime();
     this.fetchUsers();

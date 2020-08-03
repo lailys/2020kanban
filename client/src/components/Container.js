@@ -15,7 +15,7 @@ class Container extends Component {
   }
   componentDidMount = () => {
     this.fetchTasks("na", "na");
-    const socket = opensocket("http://localhost:8080");
+    const socket = opensocket("/");
     socket.on("task", (data) => {
       if (data.action === "create") {
         this.fetchTasks("na", "na");

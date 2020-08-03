@@ -111,7 +111,7 @@ class Task extends Component {
   };
   removeTask = (e) => {
     if (this.props.token) {
-      fetch(`http://localhost:8080/tasks/${this.props.id}`, {
+      fetch(`/tasks/${this.props.id}`, {
         method: "DELETE",
         headers: {
           Authorization: "Bearer " + this.props.token,

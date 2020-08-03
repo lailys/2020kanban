@@ -194,7 +194,7 @@ class LoginPage extends Component {
   signup = (e) => {
     e.preventDefault();
     const color = `hsla(${~~(360 * Math.random())},94%,70%,.8)`;
-    fetch(`http://localhost:8080/users`, {
+    fetch(`/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -220,7 +220,7 @@ class LoginPage extends Component {
   };
   login = (e) => {
     e.preventDefault();
-    fetch(`http://localhost:8080/login`, {
+    fetch(`/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -267,7 +267,7 @@ class LoginPage extends Component {
   };
   requestFor = (e) => {
     e.preventDefault();
-    fetch(`http://localhost:8080/update-pass-request`, {
+    fetch(`/update-pass-request`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -296,7 +296,7 @@ class LoginPage extends Component {
   requestSubmit = (e) => {
     e.preventDefault();
     fetch(
-      `http://localhost:8080/update-pass/${
+      `/update-pass/${
         this.props.history.location.pathname.split("/")[2]
       }`,
       {

@@ -400,12 +400,17 @@ console.log(req.params,"postPushTask",req.body,"-----------")
   .then(team=>{
     Dos.findById(req.body.card._id)
     .then(task=>{
+      console.log(task,"11111111")
       task.stage = req.body.board
+      console.log(task,"2222222222222222")
       task.save()
       .then(taskResult=>{
+        console.log(taskResult,"2222222222222222")
+        console.log(team[req.body.board.toLowerCase()],"222222222----2222222")
         team[req.body.board.toLowerCase()].push(taskResult)
         team.save()
         .then(result=>{
+          console.log("***")
           io.getIO().emit('taskChange', {
             action: 'create'
           })
@@ -432,9 +437,13 @@ console.log(req.params,"postRemoveTask",req.body,"-----------")
 
   Team.findById(req.params._id)
   .then(team=>{
+    console.log(team,"11111111111")
     team[req.body.board.toLowerCase()].splice(req.body.index, 1)
+    console.log(team,"222222222222")
     team.save()
     .then(result=>{
+      console.log("*8888**")
+
       io.getIO().emit('taskChange', {
         action: 'create'
       })

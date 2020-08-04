@@ -27,30 +27,22 @@ class UserPage extends Component {
     socket.on("task", (data) => {
       if (data.action === "create") {
         this.fetchUserInfo();
-        // this.props.fetchUsers();
       }
     });
 
     socket.on("taskChange", (data) => {
       if (data.action === "create") {
         this.fetchUserInfo();
-        // this.props.fetchUsers();
       }
     });
     socket.on("taskMember", (data) => {
-      if (data.action === "create"||data.action === "delete") {
+      if (data.action === "create" || data.action === "delete") {
         this.fetchUserInfo();
-        // this.props.fetchUsers();
       }
     });
-    
     socket.on("userImg", (data) => {
       if (data.action === "create") {
         this.fetchUserInfo();
-        // this.props.fetchUsers();
-        // this.setState({
-        //   pic: `http://localhost:8080/${data}`,
-        // });
       }
     });
   };
@@ -60,11 +52,11 @@ class UserPage extends Component {
         return res.json();
       })
       .then((result) => {
-        console.log(result,"yserpage")
-
-        this.setState({ user: result.user,
-          responded:result.user.responded,
-          requested:result.user.requested });
+        this.setState({
+          user: result.user,
+          responded: result.user.responded,
+          requested: result.user.requested,
+        });
       });
   };
   createimg = (e) => {
@@ -76,10 +68,8 @@ class UserPage extends Component {
     this.setState({ image });
   };
   renderRequested = () => {
-    console.log(this.state.user,"yserpage555")
-
     let all = [];
-    if (this.state.requested.length>0) {
+    if (this.state.requested.length > 0) {
       this.state.requested.map((task, i) => {
         const team = { title: task.teamName };
         all.push(
@@ -109,7 +99,7 @@ class UserPage extends Component {
   };
   renderResponded = () => {
     let all = [];
-    if (this.state.responded.length>0) {
+    if (this.state.responded.length > 0) {
       this.state.responded.map((task, i) => {
         const team = { title: task.teamName };
         all.push(
@@ -139,22 +129,18 @@ class UserPage extends Component {
     Object.keys(this.state.image).map((key) => {
       formData.append(key, this.state.image[key]);
     });
-    fetch(
-      `/userImg/${this.props.userId}-${this.props.user._id}`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + this.props.token,
-        },
-        body: formData,
-      }
-    )
+    fetch(`/userImg/${this.props.userId}-${this.props.user._id}`, {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + this.props.token,
+      },
+      body: formData,
+    })
       .then((result) => {
         return result.json();
       })
       .then((result) => {
         if (result.done) {
-  
         } else {
           alert(result.message);
         }

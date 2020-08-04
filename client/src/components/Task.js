@@ -10,7 +10,6 @@ class Task extends Component {
     display: "none",
   };
   componentDidMount = () => {
-    console.log(this.props.task,"+++++++++++")
     const socket = opensocket("/");
     this.fetchMembers();
     this.setState({
@@ -45,9 +44,8 @@ class Task extends Component {
         position: "absolute",
         left: `${i * 2}vh`,
         bottom: ".3vmin",
-        color:"white"
+        color: "white",
       };
-      
       if (this.state.members[i].pic) {
         style.backgroundImage = `url("/${this.state.members[i].pic}")`;
       } else {
@@ -55,11 +53,9 @@ class Task extends Component {
         style.backgroundColor = this.state.members[i].color;
         style.color = "white";
       }
-      console.log(this.state.members[i].pic,"this.state.members[i].pic",style)
       if (style.backgroundImage !== "#5f5f64b0") {
         all.push(
           <div key={`img-${i}`} className="task-img" style={style}>
-            
             {!this.state.members[i].pic
               ? `${this.state.members[i].name.split(" ")[0][0]}${
                   this.state.members[i].name.split(" ")[1][0]
@@ -71,7 +67,6 @@ class Task extends Component {
         all.push(
           <div key={`img-${i}`} className="task-img" style={style}>
             <div>
-              
               {!this.state.members[i].pic
                 ? `${this.state.members[i].name.split(" ")[0][0]}${
                     this.state.members[i].name.split(" ")[1][0]
@@ -140,7 +135,7 @@ class Task extends Component {
   render() {
     const style = {};
     if (this.props.location1 === "top") {
-      style.opacity=this.props.opacity
+      style.opacity = this.props.opacity;
       style.marginBottom = ".3vh";
       style.marginLeft = ".1vw";
       style.width = "20vw";
@@ -151,49 +146,46 @@ class Task extends Component {
       style.width = "20%";
       style.height = "80%";
     }
-
-
     return (
       // this.props.page!=="teamPage"? (
+      <div
+        className="task-cube-user-page"
+        id={`id-${this.props.id}+${this.props.position}`}
+        style={style}
+        index="yes"
+      >
         <div
-          className="task-cube-user-page"
-          id={`id-${this.props.id}+${this.props.position}`}
-          style={style}
-          index="yes"
-        >
+          className="task-cube-priority"
+          onClick={(e) => this.displayModal(e)}
+          style={{ backgroundColor: this.props.task.priority }}
+        ></div>
+        <div className="task-title-user-page">
+          {this.props.task.title.toUpperCase()}
+        </div>
+        <div className="task-cube-middle-user-page">
+          <Link
+            id="link"
+            className="fas fa-question"
+            to={`/${this.props.team.title}/${this.props.task._id}`}
+          ></Link>
+          <div className="member-count">
+            <div className="member-sign">
+              <i className="fas fa-user-friends"></i>
+            </div>
+            <div className="count">{this.props.task.responders.length}</div>
+          </div>
+          <div className="deadline">
+            <i className="fas fa-clock"></i>
+            <div className="time">
+              {this.state.deadline === "invalid date"
+                ? ""
+                : this.state.deadline}
+            </div>
+          </div>
+        </div>
+        {this.imgRender()}
+        {this.props.user._id === this.props.userId ? (
           <div
-            className="task-cube-priority"
-            onClick={(e) => this.displayModal(e)}
-            style={{ backgroundColor: this.props.task.priority }}
-          ></div>
-          <div className="task-title-user-page">
-            {this.props.task.title.toUpperCase()}
-          </div>
-          <div className="task-cube-middle-user-page">
-            <Link
-              id="link"
-              className="fas fa-question"
-              to={`/${this.props.team.title}/${this.props.task._id}`}
-            ></Link>
-            <div className="member-count">
-              <div className="member-sign">
-                <i className="fas fa-user-friends"></i>
-              </div>
-              <div className="count">{this.props.task.responders.length}</div>
-            </div>
-            <div className="deadline">
-              <i className="fas fa-clock"></i>
-              <div className="time">
-                {this.state.deadline === "invalid date"
-                  ? ""
-                  : this.state.deadline}
-              </div>
-            </div>
-          </div>
-  
-          {this.imgRender()}
-              {this.props.user._id===this.props.userId?
-            <div
             className="modal-content"
             style={{
               backgroundColor: this.props.task.priority,
@@ -218,16 +210,13 @@ class Task extends Component {
             >
               -
             </div>
-          </div>:
-          <div style={{background:"none"}}></div>
-          }
-        </div>
-     
-      )
-    
+          </div>
+        ) : (
+          <div style={{ background: "none" }}></div>
+        )}
+      </div>
+    );
   }
 }
 
-
 export default Task;
-

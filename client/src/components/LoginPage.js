@@ -34,7 +34,6 @@ class LoginPage extends Component {
                   LOGIN
                 </button>
                 <br />
-               
                 <Link
                   onClick={(e) => this.props.authPicker(e)}
                   className="header-link login-page-signup-btn"
@@ -296,9 +295,7 @@ class LoginPage extends Component {
   requestSubmit = (e) => {
     e.preventDefault();
     fetch(
-      `/update-pass/${
-        this.props.history.location.pathname.split("/")[2]
-      }`,
+      `/update-pass/${this.props.history.location.pathname.split("/")[2]}`,
       {
         method: "POST",
         headers: {

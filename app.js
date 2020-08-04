@@ -24,7 +24,6 @@ const fileStorage = multer.diskStorage({
     cb(null, new Date().toISOString() + '-' + file.originalname);
   }
 });
-
 const fileFilter = (req, file, cb) => {
   if (
     file.mimetype === 'image/png' ||
@@ -37,10 +36,10 @@ const fileFilter = (req, file, cb) => {
   }
 };
 const accessLogStream = fs.createWriteStream(
-  path.join(__dirname, 'access.log'),
-  { flags: 'a' }
-);
-
+  path.join(__dirname, 'access.log'), {
+    flags: 'a'
+  }
+)
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
   app.use(express.static('client/build'));
 }
@@ -49,8 +48,9 @@ app.use(compression());
 app.use(morgan('combined', {
   stream: accessLogStream
 }));
-
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(bodyParser.json())
 app.use(
   multer({
@@ -69,7 +69,7 @@ app.use((req, res, next) => {
     'OPTIONS, GET, POST, PUT, PATCH, DELETE'
   );
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  res.setHeader('Access-Control-Allow-Headers',  'Origin','Accept', 'X-Requested-With', 'Content-Type', 'Access-Control-Request-Method', 'Access-Control-Request-Headers', 'Authorization');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin', 'Accept', 'X-Requested-With', 'Content-Type', 'Access-Control-Request-Method', 'Access-Control-Request-Headers', 'Authorization');
   next()
 })
 app.use(routes)
@@ -93,7 +93,7 @@ mongoose.connect(MongoURL, {
     useUnifiedTopology: true
   })
   .then(result => {
-    const server = app.listen(process.env.PORT|| 8080)
+    const server = app.listen(process.env.PORT || 8080)
     const io = require("./soket").init(server);
     io.on("connection", (socket) => {
       console.log("client connected");

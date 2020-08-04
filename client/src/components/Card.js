@@ -6,8 +6,6 @@ import { Link } from "react-router-dom";
 import opensocket from "socket.io-client";
 import moment from "moment";
 
-
-
 class Card extends Component {
   state = {
     members: [],
@@ -101,103 +99,101 @@ class Card extends Component {
       connectDragSource,
       connectDropTarget,
     } = this.props;
-    const members=this.state.members
+    const members = this.state.members;
     const opacity = isDragging ? 0.5 : 1;
     return connectDragSource(
       connectDropTarget(
+        <div
+          className="task-cube"
+          id={`id-${this.props.id}+${this.props.position}`}
+          style={{ opacity }}
+          index="whatttt"
+        >
+          <i
+            className="fas fa-bookmark"
+            id={`bookmark-${this.props.id}+${this.props.position}`}
+            style={{ color: card.priority }}
+          ></i>
           <div
-            className="task-cube"
-            id={`id-${this.props.id}+${this.props.position}`}
-            style={{  opacity }}
-            index="whatttt"
+            className="task-title"
+            id={`cube-${this.props.id}+${this.props.position}`}
           >
-            <i
-              className="fas fa-bookmark"
-              id={`bookmark-${this.props.id}+${this.props.position}`}
-              style={{ color: card.priority }}
-            ></i>
-            <div
-              className="task-title"
-              id={`cube-${this.props.id}+${this.props.position}`}
-            >
-              {card.title.toUpperCase()}
-            </div>
-            <div className="task-cube-middle">
-              <Link
-                id="link"
-                className="fas fa-question"
-                to={`/${this.props.team.title}/${card._id}`}
-              ></Link>
-              <div className="member-count">
-                <div className="member-sign">
-                  <i className="fas fa-user-friends"></i>
-                </div>
-                <div className="count">{card.responders.length}</div>
-              </div>
-              {this.props.card.deadline ? (
-                <div className="deadline">
-                  <div className="background"></div>
-                  <div
-                    id="cube-deadline"
-                    style={{ opacity: this.state.timeOpacity }}
-                  >
-                    {!this.props.card.deadline
-                      ? ""
-                      : moment(this.props.card.deadline).format(
-                          "MMMM Do YYYY, HH:mm a "
-                        )}
-                  </div>
-                  <div
-                    className="fas fa-clock"
-                    onMouseOver={(e) => {
-                      this.setState({ timeOpacity: "1" });
-                    }}
-                    onMouseLeave={(e) => {
-                      this.setState({ timeOpacity: "0" });
-                    }}
-                  />
-                </div>
-              ) : (
-                <div className="deadline"></div>
-              )}
-            </div>
-            <div className="members-container">
-              {this.props.card.responders.map((member, i) => {
-                let style = {};
-                  (style = {
-                      position: "absolute",
-                      right: `${i * 2}vh`,
-                      top: "0",
-                      backgroundImage: "none",
-                      color: "white",
-                      backgroundColor: member.color,
-                    });
-                return(
-                  <div key={`img-${i}`} className="task-img" style={style}>
-                    <div>
-                      {
-                        `${member.name.split(" ")[0][0].toUpperCase()}
-                        ${member.name.split(" ")[1][0].toUpperCase()}`
-                        }
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+            {card.title.toUpperCase()}
           </div>
-        )
+          <div className="task-cube-middle">
+            <Link
+              id="link"
+              className="fas fa-question"
+              to={`/${this.props.team.title}/${card._id}`}
+            ></Link>
+            <div className="member-count">
+              <div className="member-sign">
+                <i className="fas fa-user-friends"></i>
+              </div>
+              <div className="count">{card.responders.length}</div>
+            </div>
+            {this.props.card.deadline ? (
+              <div className="deadline">
+                <div className="background"></div>
+                <div
+                  id="cube-deadline"
+                  style={{ opacity: this.state.timeOpacity }}
+                >
+                  {!this.props.card.deadline
+                    ? ""
+                    : moment(this.props.card.deadline).format(
+                        "MMMM Do YYYY, HH:mm a "
+                      )}
+                </div>
+                <div
+                  className="fas fa-clock"
+                  onMouseOver={(e) => {
+                    this.setState({ timeOpacity: "1" });
+                  }}
+                  onMouseLeave={(e) => {
+                    this.setState({ timeOpacity: "0" });
+                  }}
+                />
+              </div>
+            ) : (
+              <div className="deadline"></div>
+            )}
+          </div>
+          <div className="members-container">
+            {this.props.card.responders.map((member, i) => {
+              let style = {};
+              style = {
+                position: "absolute",
+                right: `${i * 2}vh`,
+                top: "0",
+                backgroundImage: "none",
+                color: "white",
+                backgroundColor: member.color,
+              };
+              return (
+                <div key={`img-${i}`} className="task-img" style={style}>
+                  <div>
+                    {`${member.name.split(" ")[0][0].toUpperCase()}
+                        ${member.name.split(" ")[1][0].toUpperCase()}`}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )
     );
   }
 }
 const cardSource = {
-  beginDrag(props,monitor, component) {
+  beginDrag(props, monitor, component) {
     const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
     return {
       index: props.index,
       listId: props.listId,
       card: props.card,
-      cardBottom:hoverBoundingRect.bottom,
-      cardTop:hoverBoundingRect.top
+      cardBottom: hoverBoundingRect.bottom,
+      cardTop: hoverBoundingRect.top,
     };
   },
   endDrag(props, monitor) {
@@ -220,21 +216,21 @@ const cardTarget = {
     if (dragIndex === hoverIndex) {
       return;
     }
-    const draggedHeight=draggedBottom-draggedTop
+    const draggedHeight = draggedBottom - draggedTop;
     // Determine rectangle on screen
     const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
     // Get vertical middle
-    const hoverY = (hoverBoundingRect.bottom - hoverBoundingRect.top) ;
+    const hoverY = hoverBoundingRect.bottom - hoverBoundingRect.top;
     // Determine mouse position
     const clientOffset = monitor.getClientOffset();
     // Get pixels to the top
-    const hoverClientY = (clientOffset.y - hoverBoundingRect.top);
+    const hoverClientY = clientOffset.y - hoverBoundingRect.top;
     // Dragging downwards
-    if (dragIndex < hoverIndex && hoverClientY < hoverY/400) {
+    if (dragIndex < hoverIndex && hoverClientY < hoverY / 400) {
       return;
     }
     // Dragging upwards
-    if (dragIndex > hoverIndex && (hoverClientY/4) > hoverY) {
+    if (dragIndex > hoverIndex && hoverClientY / 4 > hoverY) {
       return;
     }
     if (props.listId === sourceListId) {

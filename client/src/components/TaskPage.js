@@ -46,12 +46,12 @@ class TaskPage extends Component {
     }
     const socket = opensocket("/");
     socket.on("taskComment", (data) => {
-      if (data.action === "create" ) {
+      if (data.action === "create") {
         this.fetchComments();
       }
     });
     socket.on("taskMember", (data) => {
-      if (data.action === "create"||data.action === "delete") {
+      if (data.action === "create" || data.action === "delete") {
         this.getMembers();
       }
     });
@@ -115,16 +115,13 @@ class TaskPage extends Component {
       Object.keys(this.state.image).map((key) => {
         formData.append(key, this.state.image[key]);
       });
-      fetch(
-        `/taskImg/${this.props.user}-${this.props.task._id}`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: "Bearer " + this.props.token,
-          },
-          body: formData,
-        }
-      )
+      fetch(`/taskImg/${this.props.user}-${this.props.task._id}`, {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + this.props.token,
+        },
+        body: formData,
+      })
         .then((result) => {
           return result.json();
         })
@@ -156,8 +153,6 @@ class TaskPage extends Component {
       })
       .then((result) => {
         if (result.done) {
-          console.log(result,">>>>>")
-          // this.setState({ members :result.members});
         } else {
           alert(result.message);
         }
@@ -185,8 +180,8 @@ class TaskPage extends Component {
       })
       .then((result) => {
         if (result.done) {
-this.setState({newComment:{}})       
- } else {
+          this.setState({ newComment: {} });
+        } else {
           alert(result.message);
         }
       });
@@ -223,10 +218,8 @@ this.setState({newComment:{}})
     }
   };
   renderMembers = () => {
-    console.log( this.state.members,">>>>>>>><<<<<<<<<<<")
     let all = [];
     this.state.members.map((member, i) => {
-      // console.log(member,"------------------->")
       all.push(
         <Member
           key={`img-${i}`}
@@ -279,7 +272,7 @@ this.setState({newComment:{}})
             <br />
             <textarea
               id="text-area"
-              value={this.state.newComment.comment||""}
+              value={this.state.newComment.comment || ""}
               onChange={(e) => this.createComment(e)}
             ></textarea>
             <br />

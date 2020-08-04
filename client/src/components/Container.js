@@ -28,9 +28,7 @@ class Container extends Component {
     });
   };
   fetchTasks = (priority, i) => {
-    fetch(
-      `/team/tasks-${this.props.team._id}-${i}-${priority}`
-    )
+    fetch(`/team/tasks-${this.props.team._id}-${i}-${priority}`)
       .then((res) => {
         return res.json();
       })
@@ -54,9 +52,7 @@ class Container extends Component {
           this.setState({ tasks: tempTeam });
         });
     } else if (e.target.value === "STANDARD") {
-      fetch(
-        `/team/tasks-${this.props.team._id}-${i}-STANDARD`
-      )
+      fetch(`/team/tasks-${this.props.team._id}-${i}-STANDARD`)
         .then((res) => {
           return res.json();
         })
@@ -66,9 +62,7 @@ class Container extends Component {
           this.setState({ tasks: tempTeam });
         });
     } else if (e.target.value === "FIXED") {
-      fetch(
-        `/team/tasks-${this.props.team._id}-${i}-FIXED`
-      )
+      fetch(`/team/tasks-${this.props.team._id}-${i}-FIXED`)
         .then((res) => {
           return res.json();
         })
@@ -78,9 +72,7 @@ class Container extends Component {
           this.setState({ tasks: tempTeam });
         });
     } else if (e.target.value === "EXPEDITE") {
-      fetch(
-        `/team/tasks-${this.props.team._id}-${i}-EXPEDITE`
-      )
+      fetch(`/team/tasks-${this.props.team._id}-${i}-EXPEDITE`)
         .then((res) => {
           return res.json();
         })
@@ -136,12 +128,7 @@ class Container extends Component {
     // 	}
     // }));
   }
-
   removeCard(index) {
-    console.log(
-      this.state.tasks[this.props.name][index],
-      "this.state.tasks[this.props.name][index]"
-    );
     if (
       this.state.tasks[this.props.name][index].responders.filter(
         (responder) => responder._id === this.props.user

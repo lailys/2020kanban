@@ -18,7 +18,8 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require("nodemailer");
 const sgTransport = require('nodemailer-sendgrid-transport');
 const {
-  populate, exists
+  populate,
+  exists
 } = require('./models/Dos');
 
 
@@ -30,7 +31,6 @@ const mailer = nodemailer.createTransport(sgTransport({
 
 /* Team--------------- */
 exports.postTeam = (req, res, next) => {
-  console.log(req.body, "exports.postTeam")
   const title = req.body.title
   const color = req.body.color
   const creator = req.body.user
@@ -43,7 +43,6 @@ exports.postTeam = (req, res, next) => {
   })
   team.save()
     .then(result => {
-      console.log(result, "&&&")
       io.getIO().emit('team', {
         action: 'create',
         team: result
@@ -100,15 +99,12 @@ exports.postDeleteTeam = (req, res, next) => {
 
 }
 exports.getTeamTasks = (req, res, next) => {
-  console.log("exports.getTeamTasks",req.params._id)
   Team.findById(req.params._id.split('-')[1])
     .populate('requested')
     .populate('inprogress')
     .populate('done')
     .then(team => {
-     
-      if (req.params._id.split('-')[2] === "na"||req.params._id.split('-')[2] === "undefined"||!req.params._id.split('-')[2]) {
-        console.log(team,"111111")
+      if (req.params._id.split('-')[2] === "na" || req.params._id.split('-')[2] === "undefined" || !req.params._id.split('-')[2]) {
         res.status(200).json({
           message: 'all tasks has been fetched.',
           tasks: {
@@ -117,8 +113,7 @@ exports.getTeamTasks = (req, res, next) => {
             "DONE": team.done
           }
         });
-      }else {
-        console.log("22222",req.params._id.split('-')[3])
+      } else {
         let temp = []
         if (req.params._id.split('-')[3] === "STANDARD") {
           temp = team[req.params._id.split('-')[2].toLowerCase()].slice(0).filter(task => task.priority === "#0aa7f5")
@@ -128,14 +123,10 @@ exports.getTeamTasks = (req, res, next) => {
         } else
         if (req.params._id.split('-')[3] === "EXPEDITE") {
           temp = team[req.params._id.split('-')[2].toLowerCase()].slice(0).filter(task => task.priority === "#ff006e")
-        } else 
-        if (!req.params._id.split('-')[3] )
-        {
+        } else
+        if (!req.params._id.split('-')[3]) {
           temp = team[req.params._id.split('-')[2].toLowerCase()]
-          console.log("22222","last",req.params._id.split('-')[3])
         }
-        console.log("22222",temp,"final")
-
         res.status(200).json({
           message: 'the specific tasks have been fetched',
           tasks: temp
@@ -344,10 +335,10 @@ exports.getTasks = (req, res, next) => {
     });
 }
 exports.postComment = (req, res, next) => {
-  
+
   Dos.findById(req.body.taskId)
     .then(task => {
-      if (req.body.responders.filter(responder=>responder._id===req.body.user).length>0) {
+      if (req.body.responders.filter(responder => responder._id === req.body.user).length > 0) {
         User.findById(req.body.user)
           .then(user => {
             task.comments.push({
@@ -395,22 +386,42 @@ exports.getComments = (req, res, next) => {
     });
 }
 exports.postPushTask = (req, res, next) => {
-console.log(req.params,"postPushTask",req.body,"-----------")
   Team.findById(req.params._id)
-  .then(team=>{
-    Dos.findById(req.body.card._id)
-    .then(task=>{
-      console.log(task,"11111111")
-      task.stage = req.body.board
-      console.log(task,"2222222222222222")
-      task.save()
-      .then(taskResult=>{
-        console.log(taskResult,"2222222222222222")
-        console.log(team[req.body.board.toLowerCase()],"222222222----2222222")
-        team[req.body.board.toLowerCase()].push(taskResult)
-        team.save()
-        .then(result=>{
-          console.log("***")
+    .then(team => {
+      Dos.findById(req.body.card._id)
+        .then(task => {
+          task.stage = req.body.board
+          task.save()
+            .then(taskResult => {
+              team[req.body.board.toLowerCase()].push(taskResult)
+              team.save()
+                .then(result => {
+                  io.getIO().emit('taskChange', {
+                    action: 'create'
+                  })
+                  res.status(200).json({
+                    message: 'task has been pushed.',
+                    done: 1
+                  });
+                })
+            })
+        })
+    })
+    .catch(err => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
+
+
+}
+exports.postRemoveTask = (req, res, next) => {
+  Team.findById(req.params._id)
+    .then(team => {
+      team[req.body.board.toLowerCase()].splice(req.body.index, 1)
+      team.save()
+        .then(result => {
           io.getIO().emit('taskChange', {
             action: 'create'
           })
@@ -418,47 +429,14 @@ console.log(req.params,"postPushTask",req.body,"-----------")
             message: 'task has been pushed.',
             done: 1
           });
-      })
-      }
-        )
+        })
     })
-  })
-  .catch(err => {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
-  });
-
-
-}
-exports.postRemoveTask = (req, res, next) => {
-console.log(req.params,"postRemoveTask",req.body,"-----------")
-
-  Team.findById(req.params._id)
-  .then(team=>{
-    console.log(team,"11111111111")
-    team[req.body.board.toLowerCase()].splice(req.body.index, 1)
-    console.log(team,"222222222222")
-    team.save()
-    .then(result=>{
-      console.log("*8888**")
-
-      io.getIO().emit('taskChange', {
-        action: 'create'
-      })
-      res.status(200).json({
-        message: 'task has been pushed.',
-        done: 1
-      });
-  })
-  })
-  .catch(err => {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
-  });
+    .catch(err => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
 
 
 }
@@ -524,7 +502,6 @@ exports.postDeleteTask = (req, res, next) => {
 exports.getTaskMember = (req, res, next) => {
   Dos.findById(req.params._id)
     .then(task => {
-      console.log(task,"gettaskmembers")
       res.status(200).json({
         message: "you have been added or have been part of this project",
         members: task.responders
@@ -538,49 +515,40 @@ exports.getTaskMember = (req, res, next) => {
     });
 }
 exports.postTaskMember = (req, res, next) => {
-  console.log("--------",req.body,"-------------")
   Dos.findById(req.body.task._id)
-  // .populate('responders')
-  .then(task => {
-    console.log(task,"1111111")
-    const exists = task.responders.filter(responder => responder._id.toString() === req.body.user)
-    if (exists.length === 0) {
-      User.findById(req.body.user)
-        .then(user => {
-          console.log("222222222")
-          task.responders.push(user)
-          task.save()
-          console.log("33333333333")
-          user.responded.push(task)
-          console.log("444444444444")
-
-          user.save()
-          console.log("555555555")
-
-          io.getIO().emit('taskMember', {
-            action: 'create'
+    // .populate('responders')
+    .then(task => {
+      const exists = task.responders.filter(responder => responder._id.toString() === req.body.user)
+      if (exists.length === 0) {
+        User.findById(req.body.user)
+          .then(user => {
+            task.responders.push(user)
+            task.save()
+            user.responded.push(task)
+            user.save()
+            io.getIO().emit('taskMember', {
+              action: 'create'
+            })
+            res.status(200).json({
+              message: "you have been added ",
+              done: 1
+            });
           })
-          res.status(200).json({
-            message: "you have been added ",
-            done:1
-          });
-        })
-    } else {
-      res.status(200).json({
-        message: "you are already part of this project",
-      });
-    }
-  })
-  .catch(err => {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    next(err);
-  });
+      } else {
+        res.status(200).json({
+          message: "you are already part of this project",
+        });
+      }
+    })
+    .catch(err => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
 
 }
 exports.postTaskMemberRemove = (req, res, next) => {
-  console.log(req.body,"postTaskMemberRemove")
   Dos.findById(req.body.task)
     .then(task => {
       if (task.creator.toString() === req.body.user) {
@@ -593,14 +561,14 @@ exports.postTaskMemberRemove = (req, res, next) => {
             user.responded.splice(index, 1)
             user.save()
             // .then(result=>{
-              io.getIO().emit('taskMember', {
-                action: 'delete'
-              })
-              res.status(200).json({
-                message: "you are out of the project successfully ",
-                members: task.responders,
-                done: 1
-              });
+            io.getIO().emit('taskMember', {
+              action: 'delete'
+            })
+            res.status(200).json({
+              message: "you are out of the project successfully ",
+              members: task.responders,
+              done: 1
+            });
             // })
           })
       } else {
@@ -698,7 +666,6 @@ exports.postSignUser = (req, res, next) => {
     });
 }
 exports.postUserImg = (req, res, next) => {
-  console.log(req.file,"222222")
   if (req.params._id.split('-')[1] === req.params._id.split('-')[0]) {
     if (!req.file) {
       res.status(200).json({
@@ -711,26 +678,25 @@ exports.postUserImg = (req, res, next) => {
           helper.deleteFile(user.pic)
           user.pic = req.file.path
           user.save()
-          .then(
-            result=>{
-              if(result){
-
-                io.getIO().emit('userImg', {
-                  action: 'create',
-                  data:user.pic
-                })
-                res.status(200).json({
-                  message: "image has been submitted successfully",
-                  done: 1
-                })
-              }else{
-                res.status(200).json({
-                  message: "image has been submitted successfully",
-                  done:0
-                })
+            .then(
+              result => {
+                if (result) {
+                  io.getIO().emit('userImg', {
+                    action: 'create',
+                    data: user.pic
+                  })
+                  res.status(200).json({
+                    message: "image has been submitted successfully",
+                    done: 1
+                  })
+                } else {
+                  res.status(200).json({
+                    message: "image has been submitted successfully",
+                    done: 0
+                  })
+                }
               }
-            }
-          )
+            )
         })
         .catch(err => {
           if (!err.statusCode) {

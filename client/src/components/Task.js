@@ -38,7 +38,7 @@ class Task extends Component {
   };
   imgRender = () => {
     let all = [];
-
+console.log(this.state.members)
     for (let i = 0; i < this.state.members.length; i++) {
       const style = {
         position: "absolute",

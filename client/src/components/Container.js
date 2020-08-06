@@ -129,6 +129,10 @@ class Container extends Component {
     // }));
   }
   removeCard(index) {
+    console.log(
+      this.state.tasks[this.props.name][index],
+      "this.state.tasks[this.props.name][index]"
+    );
     if (
       this.state.tasks[this.props.name][index].responders.filter(
         (responder) => responder._id === this.props.user

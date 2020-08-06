@@ -417,6 +417,7 @@ exports.postPushTask = (req, res, next) => {
 
 }
 exports.postRemoveTask = (req, res, next) => {
+  console.log(req.params,"postRemoveTask",req.body,"-----------")
   Team.findById(req.params._id)
     .then(team => {
       team[req.body.board.toLowerCase()].splice(req.body.index, 1)

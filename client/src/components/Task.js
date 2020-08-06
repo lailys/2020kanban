@@ -38,7 +38,7 @@ class Task extends Component {
   };
   imgRender = () => {
     let all = [];
-console.log(this.state.members)
+console.log(this.state.members,"task===>members")
     for (let i = 0; i < this.state.members.length; i++) {
       const style = {
         position: "absolute",
@@ -53,6 +53,7 @@ console.log(this.state.members)
         style.backgroundColor = this.state.members[i].color;
         style.color = "white";
       }
+      console.log(this.state.members[i].pic,"this.state.members[i].pic",style)
       if (style.backgroundImage !== "#5f5f64b0") {
         all.push(
           <div key={`img-${i}`} className="task-img" style={style}>

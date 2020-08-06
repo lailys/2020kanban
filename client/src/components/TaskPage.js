@@ -309,7 +309,7 @@ class TaskPage extends Component {
 
       if (this.state.pic) {
         style.backgroundImage = `url("${this.state.pic}")`;
-        style.height = "40vh";
+        style.height = "60vh";
       } else {
         style.backgroundImage = "";
         style.height = "10vh";

@@ -128,7 +128,7 @@ class Container extends Component {
           }
         });
     } else {
-      alert("YOu dont have the right to move this task");
+      alert("You dont have the right to move this task");
     }
     // this.setState(update(this.state, {
     // 	cards: {
@@ -181,9 +181,7 @@ class Container extends Component {
             alert(res.message);
           }
         });
-    } else {
-      alert("YOu dont have the right to move this task");
-    }
+    } 
     // this.setState(update(this.state, {
     // 	cards: {
     // 		$splice: [

@@ -15,7 +15,7 @@ class Container extends Component {
   }
   componentDidMount = () => {
     this.fetchTasks("na", "na");
-    const socket = opensocket("/");
+    const socket = opensocket("http://localhost:8080");
     socket.on("task", (data) => {
       if (data.action === "create") {
         this.fetchTasks("na", "na");
@@ -28,7 +28,9 @@ class Container extends Component {
     });
   };
   fetchTasks = (priority, i) => {
-    fetch(`/team/tasks-${this.props.team._id}-${i}-${priority}`)
+    fetch(
+      `/team/tasks-${this.props.team._id}-${i}-${priority}`
+    )
       .then((res) => {
         return res.json();
       })
@@ -52,7 +54,9 @@ class Container extends Component {
           this.setState({ tasks: tempTeam });
         });
     } else if (e.target.value === "STANDARD") {
-      fetch(`/team/tasks-${this.props.team._id}-${i}-STANDARD`)
+      fetch(
+        `/team/tasks-${this.props.team._id}-${i}-STANDARD`
+      )
         .then((res) => {
           return res.json();
         })
@@ -62,7 +66,9 @@ class Container extends Component {
           this.setState({ tasks: tempTeam });
         });
     } else if (e.target.value === "FIXED") {
-      fetch(`/team/tasks-${this.props.team._id}-${i}-FIXED`)
+      fetch(
+        `/team/tasks-${this.props.team._id}-${i}-FIXED`
+      )
         .then((res) => {
           return res.json();
         })
@@ -72,7 +78,9 @@ class Container extends Component {
           this.setState({ tasks: tempTeam });
         });
     } else if (e.target.value === "EXPEDITE") {
-      fetch(`/team/tasks-${this.props.team._id}-${i}-EXPEDITE`)
+      fetch(
+        `/team/tasks-${this.props.team._id}-${i}-EXPEDITE`
+      )
         .then((res) => {
           return res.json();
         })
@@ -128,6 +136,7 @@ class Container extends Component {
     // 	}
     // }));
   }
+
   removeCard(index) {
     console.log(
       this.state.tasks[this.props.name][index],
@@ -163,6 +172,11 @@ class Container extends Component {
           return result.json();
         })
         .then((res) => {
+          console.log(
+            "---------------------------------------------",
+            res,
+            "---------------------------------------------"
+          );
           if (!res.done) {
             alert(res.message);
           }

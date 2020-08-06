@@ -150,7 +150,7 @@ button {
 }
 
 .expanded-menu {
-  background-color: #12121683;
+  background-color: #04040477;
   margin: 0;
   padding: 0;
   align-items: center;
@@ -174,7 +174,7 @@ button {
 }
 
 .unexpanded-menu {
-  background-color: #04040471;
+  background-color: #040404;
   padding: 0;
   display: flex;
   align-items: center;
@@ -975,7 +975,7 @@ button {
 .board-header {
   /* background-color: #eeecea7e; */
   background-color: #f5f4f349;
-  color: #121216;
+  color: #cfcfd4;
   position: relative;
   display: flex;
   justify-content: center;
@@ -995,7 +995,7 @@ button {
 }
 
 #board-header-title {
-  color: #121216;
+  color: #cbcbd8e7;
   font-family: "Heebo", sans-serif;
   font-weight: 300;
   font-size: 110%;

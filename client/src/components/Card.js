@@ -15,7 +15,7 @@ class Card extends Component {
     display: "none",
   };
   componentDidMount = () => {
-    const socket = opensocket("http://localhost:8080");
+    const socket = opensocket("/");
     this.fetchMembers();
     this.setState({
       deadline: !this.props.card.deadline

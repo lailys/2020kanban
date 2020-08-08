@@ -52,15 +52,15 @@ class Member extends Component {
     style1.background = this.props.member.color
     const style = {
       position: "relative",
-      backgroundRepeat: "no-repeat",
-      backgroundPosition: "center",
-      backgroundSize: "cover",
+      // backgroundRepeat: "no-repeat",
+      // backgroundPosition: "center",
+      // backgroundSize: "cover",
     };
-    if (this.state.pic) {
-      style.backgroundImage = `url("${this.state.pic}")`;
-    } else {
-      style.backgroundImage = "";
-    }
+    // if (this.state.pic) {
+    //   style.backgroundImage = `url("${this.state.pic}")`;
+    // } else {
+    //   style.backgroundImage = "";
+    // }
     return !this.props.token ? (
       <div
         className="task-page-img"

@@ -138,17 +138,28 @@ class Container extends Component {
   }
 
   removeCard(index) {
-    console.log(
-      this.state.tasks[this.props.name][index],
-      "this.state.tasks[this.props.name][index]"
-    );
+    // console.log(
+    //   this.state.tasks[this.props.name][index],
+    //   "this.state.tasks[this.props.name][index]"
+    // );
+    // if (
+    //   this.state.tasks[this.props.name][index].responders.filter(
+    //     (responder) => responder._id === this.props.user
+    //   ).length > 0
+    // ) {
+    //   let tempTasks = this.state.tasks;
+    //   tempTasks[this.props.name].splice(index, 1);
+    //   this.setState({ tasks: tempTasks });
+    let task=this.state.tasks[this.props.name].filter(task=>task._id===index)
+   console.log(task,"removeCard11111111")
     if (
-      this.state.tasks[this.props.name][index].responders.filter(
+      task[0].responders.filter(
         (responder) => responder._id === this.props.user
       ).length > 0
     ) {
-      let tempTasks = this.state.tasks;
-      tempTasks[this.props.name].splice(index, 1);
+      let tempTasks = this.state.tasks[this.props.name].filter(task=>task._id!==index)
+      console.log(tempTasks,"removeCard22222222")
+
       this.setState({ tasks: tempTasks });
       fetch(`/team-remove/${this.props.team._id}`, {
         method: "PUT",

@@ -46,9 +46,10 @@ class Member extends Component {
   render() {
     const style1 = {};
     style1.color = "white";
-    this.state.pic === ""
-      ? (style1.background = this.props.member.color)
-      : (style1.background = "none");
+    // this.state.pic === ""
+    //   ? (style1.background = this.props.member.color)
+    //   : (style1.background = "none");
+    style1.background = this.props.member.color
     const style = {
       position: "relative",
       backgroundRepeat: "no-repeat",
@@ -68,10 +69,13 @@ class Member extends Component {
         style={style}
       >
         <div className="task-page-member-pic" style={style1}>
-          {this.state.pic === ""
-            ? `${this.props.member.name.split(" ")[0][0].toUpperCase()}
+          {
+          // this.state.pic === ""
+          //   ? 
+            `${this.props.member.name.split(" ")[0][0].toUpperCase()}
               ${this.props.member.name.split(" ")[1][0].toUpperCase()}`
-            : ""}
+            // : ""
+            }
         </div>
         <Link
           to={`/users/${this.props.member._id}`}
@@ -89,10 +93,13 @@ class Member extends Component {
         style={style}
       >
         <div className="task-page-member-pic" style={style1}>
-          {this.state.pic === ""
-            ? `${this.props.member.name.split(" ")[0][0].toUpperCase()}
+          {
+          // this.state.pic === ""
+          //   ? 
+            `${this.props.member.name.split(" ")[0][0].toUpperCase()}
               ${this.props.member.name.split(" ")[1][0].toUpperCase()}`
-            : ""}
+            // : ""
+            }
         </div>
         <Link
           to={`/users/${this.props.member._id}`}

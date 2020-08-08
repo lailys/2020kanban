@@ -155,80 +155,114 @@ class UserPage extends Component {
     } else {
       style.backgroundImage = "";
     }
-    return this.props.token ? (
+    return (
       <div
-        className="user-page"
+      className="user-page"
+      style={{
+        width: this.props.pageWidth,
+        left: this.props.pageLeft,
+        borderRadius: this.props.pageRadius,
+        alignItems: this.props.flexFlow,
+      }}
+    >
+      <div
+        id="user-overflow"
         style={{
-          width: this.props.pageWidth,
-          left: this.props.pageLeft,
-          borderRadius: this.props.pageRadius,
-          alignItems: this.props.flexFlow,
+          width: this.props.overflowWidth,
         }}
       >
-        <div id="user-overflow" style={{ width: this.props.overflowWidth }}>
-          {this.props.user._id === this.props.userId ? (
-            <form
-              style={style}
-              id="user-page-img"
-              onSubmit={this.submitImg}
-              encType="multipart/form-data"
-            >
-              <input
-                className="task-picUrl2"
-                type="file"
-                name="picUrl"
-                id="picUrl"
-                onChange={(e) => this.createimg(e)}
-              />
-              <button
-                type="submit"
-                id="add-edit-user-img-btn"
-                className="fas fa-pencil-alt"
-              />
-            </form>
-          ) : (
-            <div style={style} id="user-page-img"></div>
-          )}
-          <div className="user-name">{this.props.user.name}</div>
-          <div className="user-req">
-            <span className="user-req-pan">REQUESTED</span>
-            {this.renderRequested()}
+        {/* <div style={style} id="user-page-img"></div> */}
+        <div className="user-name" style={{color:this.props.user.color}}>
+          {this.props.user.name.split(" ")[0].toUpperCase()} 
+          <span style={{width:"2vmin",height:"1vmin"}}/>
+          {this.props.user.name.split(" ")[1].toUpperCase()}
           </div>
-          <div className="user-res">
-            <span className="user-req-pan">RESPONDED</span>
-            {this.renderResponded()}
-          </div>
+        <div className="user-req">
+          <span className="user-req-pan">REQUESTED</span>
+          {this.renderRequested()}
         </div>
-      </div>
-    ) : (
-      <div
-        className="user-page"
-        style={{
-          width: this.props.pageWidth,
-          left: this.props.pageLeft,
-          borderRadius: this.props.pageRadius,
-          alignItems: this.props.flexFlow,
-        }}
-      >
-        <div
-          id="user-overflow"
-          style={{
-            width: this.props.overflowWidth,
-          }}
-        >
-          <div style={style} id="user-page-img"></div>
-          <div className="user-name">{this.props.user.name}</div>
-          <div className="user-req">
-            <span className="user-req-pan">REQUESTED</span>
-            {this.renderRequested()}
-          </div>
 
-          <div className="user-res">
-            <span className="user-req-pan">RESPONDED</span>
-            {this.renderResponded()}
-          </div>
+        <div className="user-res">
+          <span className="user-req-pan">RESPONDED</span>
+          {this.renderResponded()}
         </div>
       </div>
+    </div>
+    
+    // this.props.token ? (
+    //   <div
+    //     className="user-page"
+    //     style={{
+    //       width: this.props.pageWidth,
+    //       left: this.props.pageLeft,
+    //       borderRadius: this.props.pageRadius,
+    //       alignItems: this.props.flexFlow,
+    //     }}
+    //   >
+    //     <div id="user-overflow" style={{ width: this.props.overflowWidth }}>
+    //       {this.props.user._id === this.props.userId ? (
+    //         <form
+    //           style={style}
+    //           id="user-page-img"
+    //           onSubmit={this.submitImg}
+    //           encType="multipart/form-data"
+    //         >
+    //           <input
+    //             className="task-picUrl2"
+    //             type="file"
+    //             name="picUrl"
+    //             id="picUrl"
+    //             onChange={(e) => this.createimg(e)}
+    //           />
+    //           <button
+    //             type="submit"
+    //             id="add-edit-user-img-btn"
+    //             className="fas fa-pencil-alt"
+    //           />
+    //         </form>
+    //       ) : (
+    //         <div style={style} id="user-page-img"></div>
+    //       )}
+    //       <div className="user-name">{this.props.user.name}</div>
+    //       <div className="user-req">
+    //         <span className="user-req-pan">REQUESTED</span>
+    //         {this.renderRequested()}
+    //       </div>
+    //       <div className="user-res">
+    //         <span className="user-req-pan">RESPONDED</span>
+    //         {this.renderResponded()}
+    //       </div>
+    //     </div>
+    //   </div>
+    // ) : (
+    //   <div
+    //     className="user-page"
+    //     style={{
+    //       width: this.props.pageWidth,
+    //       left: this.props.pageLeft,
+    //       borderRadius: this.props.pageRadius,
+    //       alignItems: this.props.flexFlow,
+    //     }}
+    //   >
+    //     <div
+    //       id="user-overflow"
+    //       style={{
+    //         width: this.props.overflowWidth,
+    //       }}
+    //     >
+    //       <div style={style} id="user-page-img"></div>
+    //       <div className="user-name">{this.props.user.name}</div>
+    //       <div className="user-req">
+    //         <span className="user-req-pan">REQUESTED</span>
+    //         {this.renderRequested()}
+    //       </div>
+
+    //       <div className="user-res">
+    //         <span className="user-req-pan">RESPONDED</span>
+    //         {this.renderResponded()}
+    //       </div>
+    //     </div>
+    //   </div>
     );
   }
 }

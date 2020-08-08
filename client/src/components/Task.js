@@ -38,47 +38,77 @@ class Task extends Component {
   };
   imgRender = () => {
     let all = [];
-console.log(this.state.members,"task======>members")
+    console.log(this.state.members,"task===>members")
+
     for (let i = 0; i < this.state.members.length; i++) {
       const style = {
         position: "absolute",
         left: `${i * 2}vh`,
         bottom: ".3vmin",
-        color: "white",
+        color:"white"
       };
-      if (this.state.members[i].pic) {
-        style.backgroundImage = `url("/${this.state.members[i].pic}")`;
-      } else {
+      
         style.backgroundImage = "none";
         style.backgroundColor = this.state.members[i].color;
         style.color = "white";
-      }
       console.log(this.state.members[i].pic,"this.state.members[i].pic",style)
-      if (style.backgroundImage !== "#5f5f64b0") {
-        all.push(
-          <div key={`img-${i}`} className="task-img" style={style}>
-            {!this.state.members[i].pic
-              ? `${this.state.members[i].name.split(" ")[0][0]}${
-                  this.state.members[i].name.split(" ")[1][0]
-                }`
-              : ""}
-          </div>
-        );
-      } else {
         all.push(
           <div key={`img-${i}`} className="task-img" style={style}>
             <div>
-              {!this.state.members[i].pic
-                ? `${this.state.members[i].name.split(" ")[0][0]}${
+              
+              { 
+                `${this.state.members[i].name.split(" ")[0][0]}.${
                     this.state.members[i].name.split(" ")[1][0]
                   }`
-                : ""}
+              }
             </div>
           </div>
         );
       }
-    }
+    // }
     return <div className="members-container-user-page">{all}</div>;
+//     let all = [];
+// console.log(this.state.members,"task======>members")
+//     for (let i = 0; i < this.state.members.length; i++) {
+//       const style = {
+//         position: "absolute",
+//         left: `${i * 2}vh`,
+//         bottom: ".3vmin",
+//         color: "white",
+//       };
+//       if (this.state.members[i].pic) {
+//         style.backgroundImage = `url("/${this.state.members[i].pic}")`;
+//       } else {
+//         style.backgroundImage = "none";
+//         style.backgroundColor = this.state.members[i].color;
+//         style.color = "white";
+//       }
+//       console.log(this.state.members[i].pic,"this.state.members[i].pic",style)
+//       if (style.backgroundImage !== "#5f5f64b0") {
+//         all.push(
+//           <div key={`img-${i}`} className="task-img" style={style}>
+//             {!this.state.members[i].pic
+//               ? `${this.state.members[i].name.split(" ")[0][0]}${
+//                   this.state.members[i].name.split(" ")[1][0]
+//                 }`
+//               : ""}
+//           </div>
+//         );
+//       } else {
+//         all.push(
+//           <div key={`img-${i}`} className="task-img" style={style}>
+//             <div>
+//               {!this.state.members[i].pic
+//                 ? `${this.state.members[i].name.split(" ")[0][0]}${
+//                     this.state.members[i].name.split(" ")[1][0]
+//                   }`
+//                 : ""}
+//             </div>
+//           </div>
+//         );
+//       }
+//     }
+//     return <div className="members-container-user-page">{all}</div>;
   };
   renderRemove = () => {
     return this.props.token ? (

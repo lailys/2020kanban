@@ -325,7 +325,7 @@ class TaskPage extends Component {
             className="task-overflow"
             style={{ width: this.props.overflowWidth }}
           >
-            <form
+            {/* <form
               id="input"
               style={style}
               onSubmit={this.submitImg}
@@ -343,7 +343,7 @@ class TaskPage extends Component {
                 id="task-img-update-btn"
                 className="fas fa-pencil-alt"
               ></button>
-            </form>
+            </form> */}
             <div className="task-page-name">
               {this.props.task.title.toUpperCase()}
             </div>
@@ -428,7 +428,7 @@ class TaskPage extends Component {
             className="task-overflow"
             style={{ width: this.props.overflowWidth }}
           >
-            <div id="input" style={style}></div>
+            {/* <div id="input" style={style}></div> */}
             <div className="task-page-name">
               {this.props.task.title.toUpperCase()}
             </div>

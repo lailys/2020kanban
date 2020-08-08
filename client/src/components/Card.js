@@ -189,6 +189,63 @@ class Card extends Component {
     // );
   }
 }
+// const cardSource = {
+//   beginDrag(props,monitor, component) {
+//     console.log("beginDrag",props,monitor, component)
+//     const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
+//     return {
+//       index: props.index,
+//       listId: props.listId,
+//       card: props.card,
+//       cardBottom:hoverBoundingRect.bottom,
+//       cardTop:hoverBoundingRect.top
+//     };
+//   },
+//   endDrag(props, monitor) {
+//     console.log("beginDrag",props,monitor)
+//     const item = monitor.getItem();
+//     const dropResult = monitor.getDropResult();
+//     console.log("beginDrag","dropResult",dropResult)
+//     if (dropResult && dropResult.listId !== item.listId) {
+//       props.removeCard(item.index);
+//     }
+//   },
+// };
+// const cardTarget = {
+//   hover(props, monitor, component) {
+//     const dragIndex = monitor.getItem().index;
+//     const hoverIndex = props.index;
+//     const sourceListId = monitor.getItem().listId;
+//     const draggedItem = monitor.getItem().card;
+//     const draggedBottom = monitor.getItem().cardBottom;
+//     const draggedTop = monitor.getItem().cardTop;
+//     // Don't replace items with themselves
+//     if (dragIndex === hoverIndex) {
+//       return;
+//     }
+//     const draggedHeight=draggedBottom-draggedTop
+//     // Determine rectangle on screen
+//     const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
+//     // Get vertical middle
+//     const hoverY = (hoverBoundingRect.bottom - hoverBoundingRect.top) ;
+//     // Determine mouse position
+//     const clientOffset = monitor.getClientOffset();
+//     // Get pixels to the top
+//     const hoverClientY = (clientOffset.y - hoverBoundingRect.top);
+//     // Dragging downwards
+//     if (dragIndex < hoverIndex && hoverClientY < hoverY/400) {
+//       return;
+//     }
+//     // Dragging upwards
+//     if (dragIndex > hoverIndex && (hoverClientY/4) > hoverY) {
+//       return;
+//     }
+//     if (props.listId === sourceListId) {
+//       // props.moveCard(dragIndex, hoverIndex, draggedItem);
+//       monitor.getItem().index = hoverIndex;
+//     }
+//   },
+// };
 const cardSource = {
   beginDrag(props,monitor, component) {
     console.log("beginDrag",props,monitor, component)
@@ -207,14 +264,17 @@ const cardSource = {
     const dropResult = monitor.getDropResult();
     console.log("beginDrag","dropResult",dropResult)
     if (dropResult && dropResult.listId !== item.listId) {
-      props.removeCard(item.index);
+      props.removeCard(item.card._id);
     }
   },
 };
 const cardTarget = {
   hover(props, monitor, component) {
+    console.log(props,"props", component)
     const dragIndex = monitor.getItem().index;
+    const dragId = monitor.getItem().card._id;
     const hoverIndex = props.index;
+    const hoverId = props.card._id;
     const sourceListId = monitor.getItem().listId;
     const draggedItem = monitor.getItem().card;
     const draggedBottom = monitor.getItem().cardBottom;
@@ -241,15 +301,17 @@ const cardTarget = {
       return;
     }
     if (props.listId === sourceListId) {
-      // props.moveCard(dragIndex, hoverIndex, draggedItem);
+      console.log(dragId,dragIndex,"===>",hoverId,hoverIndex)
+
+      props.moveCard(dragIndex, hoverIndex, draggedItem);
       monitor.getItem().index = hoverIndex;
     }
   },
 };
 export default flow(
-  // DropTarget("CARD", cardTarget, (connect) => ({
-  //   connectDropTarget: connect.dropTarget(),
-  // })),
+  DropTarget("CARD", cardTarget, (connect) => ({
+    connectDropTarget: connect.dropTarget(),
+  })),
   DragSource("CARD", cardSource, (connect, monitor) => ({
     connectDragSource: connect.dragSource(),
     isDragging: monitor.isDragging(),

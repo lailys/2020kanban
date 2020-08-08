@@ -416,21 +416,49 @@ exports.postPushTask = (req, res, next) => {
 
 
 }
+// exports.postRemoveTask = (req, res, next) => {
+//   console.log(req.params,"postRemoveTask",req.body,"-----------")
+//   Team.findById(req.params._id)
+//     .then(team => {
+//       team[req.body.board.toLowerCase()].splice(req.body.index, 1)
+//       team.save()
+//         .then(result => {
+//           io.getIO().emit('taskChange', {
+//             action: 'create'
+//           })
+//           res.status(200).json({
+//             message: 'task has been pushed.',
+//             done: 1
+//           });
+//         })
+//     })
+//     .catch(err => {
+//       if (!err.statusCode) {
+//         err.statusCode = 500;
+//       }
+//       next(err);
+//     });
+
+
+// }
 exports.postRemoveTask = (req, res, next) => {
   console.log(req.params,"postRemoveTask",req.body,"-----------")
-  Team.findById(req.params._id)
-    .then(team => {
-      team[req.body.board.toLowerCase()].splice(req.body.index, 1)
+  
+    Team.findById(req.params._id)
+    .then(team=>{
+      const index=team[req.body.board.toLowerCase()].indexOf(req.body.index)
+      console.log(index,"indexxxxxx")
+      team[req.body.board.toLowerCase()].splice(index, 1)
       team.save()
-        .then(result => {
-          io.getIO().emit('taskChange', {
-            action: 'create'
-          })
-          res.status(200).json({
-            message: 'task has been pushed.',
-            done: 1
-          });
+      .then(result=>{
+        io.getIO().emit('taskChange', {
+          action: 'create'
         })
+        res.status(200).json({
+          message: 'task has been pushed.',
+          done: 1
+        });
+    })
     })
     .catch(err => {
       if (!err.statusCode) {
@@ -438,9 +466,9 @@ exports.postRemoveTask = (req, res, next) => {
       }
       next(err);
     });
-
-
-}
+  
+  
+  }
 exports.getUser = (req, res, next) => {
   User.findById(req.params._id)
     .populate('requested')

@@ -104,7 +104,7 @@ class Card extends Component {
     const members=this.state.members
     const opacity = isDragging ? 0.5 : 1;
     return connectDragSource(
-      // return connectDropTarget(
+       connectDropTarget(
           <div
             className="task-cube"
             id={`id-${this.props.id}+${this.props.position}`}
@@ -186,7 +186,7 @@ class Card extends Component {
             </div>
           </div>
         )
-    // );
+    );
   }
 }
 // const cardSource = {
@@ -262,8 +262,9 @@ const cardSource = {
     console.log("beginDrag",props,monitor)
     const item = monitor.getItem();
     const dropResult = monitor.getDropResult();
-    console.log("beginDrag","dropResult",dropResult)
     if (dropResult && dropResult.listId !== item.listId) {
+      console.log("beginDrag","dropResult",item.card._id)
+
       props.removeCard(item.card._id);
     }
   },

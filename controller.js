@@ -442,23 +442,23 @@ exports.postPushTask = (req, res, next) => {
 
 // }
 exports.postRemoveTask = (req, res, next) => {
-  console.log(req.params,"postRemoveTask",req.body,"-----------")
-  
-    Team.findById(req.params._id)
-    .then(team=>{
-      const index=team[req.body.board.toLowerCase()].indexOf(req.body.index)
-      console.log(index,"indexxxxxx")
+  console.log(req.params, "postRemoveTask", req.body, "-----------")
+
+  Team.findById(req.params._id)
+    .then(team => {
+      const index = team[req.body.board.toLowerCase()].indexOf(req.body.index)
+      console.log(index, "indexxxxxx")
       team[req.body.board.toLowerCase()].splice(index, 1)
       team.save()
-      .then(result=>{
-        io.getIO().emit('taskChange', {
-          action: 'create'
+        .then(result => {
+          io.getIO().emit('taskChange', {
+            action: 'create'
+          })
+          res.status(200).json({
+            message: 'task has been pushed.',
+            done: 1
+          });
         })
-        res.status(200).json({
-          message: 'task has been pushed.',
-          done: 1
-        });
-    })
     })
     .catch(err => {
       if (!err.statusCode) {
@@ -466,9 +466,9 @@ exports.postRemoveTask = (req, res, next) => {
       }
       next(err);
     });
-  
-  
-  }
+
+
+}
 exports.getUser = (req, res, next) => {
   User.findById(req.params._id)
     .populate('requested')
@@ -575,19 +575,20 @@ exports.postTaskMember = (req, res, next) => {
       }
       next(err);
     });
-
 }
 exports.postTaskMemberRemove = (req, res, next) => {
+  console.log(req.body, "postTaskMemberRemove")
   Dos.findById(req.body.task)
     .then(task => {
-      if (task.creator.toString() === req.body.user) {
-        const resIndex = JSON.parse(JSON.stringify(task)).responders.indexOf(req.body.user)
-        task.responders.splice(resIndex, 1)
+      const tempTaskRes = task.responders.filter(res => res._id.toString() !== req.body.user)
+      if (tempTaskRes.length < task.responders.length) {
+        task.responders = tempTaskRes
         task.save()
         User.findById(req.body.user)
           .then(user => {
             const index = JSON.parse(JSON.stringify(user)).responded.indexOf(req.body.task)
             user.responded.splice(index, 1)
+            console.log(user.responders, "222222")
             user.save()
             // .then(result=>{
             io.getIO().emit('taskMember', {
@@ -607,6 +608,12 @@ exports.postTaskMemberRemove = (req, res, next) => {
         });
       }
     })
+    .catch(err => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
 }
 exports.posttaskImg = (req, res, next) => {
   if (!req.file) {

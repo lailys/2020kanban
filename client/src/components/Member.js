@@ -108,13 +108,17 @@ class Member extends Component {
         >
           ?
         </Link>
-        <div
+        {
+          this.props.member._id===this.props.user?
+          <div
           className="task-page-img-remove"
           onClick={(e) => this.outOfProject(e)}
           style={{ display: this.state.optionDisplay }}
         >
           -
-        </div>
+        </div>:
+        <div/>
+        }
       </div>
     );
   }

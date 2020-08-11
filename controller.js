@@ -495,8 +495,12 @@ exports.postDeleteTask = (req, res, next) => {
                 helper.deleteFile(task.pic)
                 const indexRq = JSON.parse(JSON.stringify(user)).requested.indexOf(req.body.task)
                 const indexRs = JSON.parse(JSON.stringify(user)).responded.indexOf(req.body.task)
-                user.requested.splice(indexRq, 1)
-                user.responded.splice(indexRs, 1)
+                if(indexRq>=0){
+                  user.requested.splice(indexRq, 1)
+                }
+                if(indexRs>=0){
+                  user.responded.splice(indexRs, 1)
+                }
                 user.save()
                 io.getIO().emit('taskChange', {
                   action: 'create'

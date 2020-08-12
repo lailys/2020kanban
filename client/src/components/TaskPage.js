@@ -153,7 +153,7 @@ class TaskPage extends Component {
       })
       .then((result) => {
         if (result.done) {
-          console.log(result,"##########")
+          console.log(result,"taskpage##########",result.members)
           this.setState({ members :result.members});
         } else {
           alert(result.message);
@@ -161,7 +161,7 @@ class TaskPage extends Component {
       });
   };
   submitComment = (e) => {
-    console.log(this.props.task.responders,"this.props.task.responders")
+    console.log(this.state.members,"this.props.task.responders")
 
     e.preventDefault();
     this.setState({ newComment: {} });
@@ -174,7 +174,7 @@ class TaskPage extends Component {
       body: JSON.stringify({
         comment: this.state.newComment,
         user: this.props.user,
-        responders: this.props.task.responders,
+        responders: this.state.members,
         taskId: this.props.task._id,
         date: new Date(),
       }),

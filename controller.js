@@ -338,7 +338,7 @@ exports.postComment = (req, res, next) => {
 
   Dos.findById(req.body.taskId)
     .then(task => {
-      if (req.body.responders.filter(responder=>responder._id===req.body.user).length>0||req.body.responders.includes(req.body.user)) {
+      if (req.body.responders.filter(responder=>responder._id===req.body.user).length>0) {
         User.findById(req.body.user)
           .then(user => {
             task.comments.push({

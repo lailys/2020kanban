@@ -38,6 +38,7 @@ class Member extends Component {
       })
       .then((result) => {
         if (result.done) {
+          console.log(result,"member##########")
         } else {
           alert(result.message);
         }

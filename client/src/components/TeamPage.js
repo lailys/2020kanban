@@ -218,12 +218,11 @@ class TeamPage extends Component {
              </div>
           {this.props.token ? (
             <div>
-                <button
-                  // className="fas fa-plus"
-                  id="add-task-btn"
-                  onClick={(e) => this.requestTasks(e)}>
-                   <span id="plus-sign-task">+</span> TASK
-                </button>
+              <i
+                className="fas fa-plus"
+                id="add-task-btn"
+                onClick={(e) => this.requestTasks(e)}
+              > </i>
               <div className="team-title">
                 {this.props.team.title.toUpperCase()}
               </div>

@@ -191,10 +191,9 @@ class TeamSwitch extends Component {
       <div id="menu-location" style={{ display: this.props.teamDisplay }}>
         <button
           onClick={(e) => this.addTeam(e)}
-          // className="fas fa-plus"
+          className="fas fa-plus"
           id="team-plus"
-        ><span id="plus-sign">+</span>TEAM
-        </button>
+        ></button>
         <div
           className="expanded-menu"
           style={{ width: this.props.expandedWidth }}

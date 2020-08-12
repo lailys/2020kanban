@@ -803,29 +803,23 @@ button {
 #team-plus {
   background-color: #b700c5;
   color: white;
-  font-family: "Heebo", sans-serif;
-  font-size:110%;
-  font-weight: 400;
+  font-size: 100%;
   margin: 0;
   padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  border-radius: 40px;
+  border-radius: 50%;
   position: fixed;
   top: 4vh;
   right: 4.8vh;
-  width: 10vh;
+  width: 4.5vh;
   height: 4.5vh;
 }
-#plus-sign{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-#team-plus:hover > #plus-sign{
-  font-size: 130%;
+
+#team-plus:hover {
+  font-size: 120%;
 }
 
 .add-team-form {
@@ -959,25 +953,23 @@ button {
 #add-task-btn {
   background-color: #b800c5;
   color: white;
-  font-family: "Heebo", sans-serif;
-  font-size:100%;
-  font-weight: 400;
+  font-size: 100%;
   margin: 0;
   padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  border-radius: 30px;
+  border-radius: 50%;
   position: fixed;
   top: 4.4vh;
-  right: 16.5vh;
-  width: 7vh;
-  height: 4vh;
+  right: 11vh;
+  width: 3.5vh;
+  height: 3.5vh;
 }
 
-#add-task-btn:hover > #plus-sign-task{
-  font-size: 130%;
+#add-task-btn:hover {
+  font-size: 120%;
 }
 
 .board-header {

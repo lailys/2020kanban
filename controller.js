@@ -447,7 +447,7 @@ exports.postRemoveTask = (req, res, next) => {
   Team.findById(req.params._id)
     .then(team => {
       const index = team[req.body.board.toLowerCase()].indexOf(req.body.index)
-      console.log(index, "indexxxxxx")
+      console.log(index,"indexxxxxx",team[req.body.board.toLowerCase()])
       team[req.body.board.toLowerCase()].splice(index, 1)
       team.save()
         .then(result => {
@@ -581,7 +581,7 @@ exports.postTaskMember = (req, res, next) => {
     });
 }
 exports.postTaskMemberRemove = (req, res, next) => {
-  console.log(req.body, "postTaskMemberRemove")
+  // console.log(req.body, "postTaskMemberRemove")
   Dos.findById(req.body.task)
     .then(task => {
       const tempTaskRes = task.responders.filter(res => res._id.toString() !== req.body.user)
@@ -592,7 +592,7 @@ exports.postTaskMemberRemove = (req, res, next) => {
           .then(user => {
             const index = JSON.parse(JSON.stringify(user)).responded.indexOf(req.body.task)
             user.responded.splice(index, 1)
-            console.log(user.responders, "222222")
+            // console.log(user.responders, "222222")
             user.save()
             // .then(result=>{
             io.getIO().emit('taskMember', {

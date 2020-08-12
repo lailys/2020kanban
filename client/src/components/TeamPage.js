@@ -222,7 +222,7 @@ class TeamPage extends Component {
                 className="fas fa-plus"
                 id="add-task-btn"
                 onClick={(e) => this.requestTasks(e)}
-              > </i>
+              />
               <div className="team-title">
                 {this.props.team.title.toUpperCase()}
               </div>

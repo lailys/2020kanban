@@ -161,7 +161,6 @@ class TaskPage extends Component {
       });
   };
   submitComment = (e) => {
-    console.log(this.props.task.responders,"this.props.task.responders")
 
     e.preventDefault();
     this.setState({ newComment: {} });

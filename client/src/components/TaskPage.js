@@ -161,6 +161,7 @@ class TaskPage extends Component {
       });
   };
   submitComment = (e) => {
+    console.log(this.props.task.responders,"this.props.task.responders")
 
     e.preventDefault();
     this.setState({ newComment: {} });
@@ -182,7 +183,7 @@ class TaskPage extends Component {
         return result.json();
       })
       .then((result) => {
-        consol.log(result,"!!!!!!!!")
+        console.log(result,"!!!!!!!!")
         if (result.done) {
           this.setState({ newComment: {} });
         } else {

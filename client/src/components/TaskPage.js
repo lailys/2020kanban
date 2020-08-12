@@ -183,6 +183,7 @@ class TaskPage extends Component {
         return result.json();
       })
       .then((result) => {
+        consol.log(result,"!!!!!!!!")
         if (result.done) {
           this.setState({ newComment: {} });
         } else {

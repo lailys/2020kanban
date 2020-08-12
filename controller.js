@@ -548,37 +548,43 @@ exports.getTaskMember = (req, res, next) => {
     });
 }
 exports.postTaskMember = (req, res, next) => {
-  Dos.findById(req.body.task._id)
-    // .populate('responders')
-    .then(task => {
-      const exists = task.responders.filter(responder => responder._id.toString() === req.body.user)
-      if (exists.length === 0) {
-        User.findById(req.body.user)
-          .then(user => {
-            task.responders.push(user)
-            task.save()
-            user.responded.push(task)
-            user.save()
-            io.getIO().emit('taskMember', {
-              action: 'create'
-            })
-            res.status(200).json({
-              message: "you have been added ",
-              done: 1
-            });
-          })
-      } else {
-        res.status(200).json({
-          message: "you are already part of this project",
-        });
-      }
-    })
-    .catch(err => {
-      if (!err.statusCode) {
-        err.statusCode = 500;
-      }
-      next(err);
-    });
+ Dos.findById(req.body.task._id)
+  // .populate('responders')
+  .then(task => {
+    console.log(task.responders,"1111111")
+    const exists = task.responders.filter(responder => responder._id.toString() === req.body.user)
+    if (exists.length === 0) {
+      User.findById(req.body.user)
+        .then(user => {
+          console.log(task,"222222222",user)
+          task.responders.push(user)
+          console.log(task,"----------->",user)
+          user.responded.push(task._id)
+          console.log(task,"33333333333",user)
+          task.save()
+          user.save()
+              console.log(task,"4444444444444",user)
+              io.getIO().emit('taskMember', {
+                action: 'create'
+              })
+              res.status(200).json({
+                message: "you have been added ",
+                done:1,
+                members:task.responders
+              });
+        })
+    } else {
+      res.status(200).json({
+        message: "you are already part of this project",
+      });
+    }
+  })
+  .catch(err => {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  });
 }
 exports.postTaskMemberRemove = (req, res, next) => {
   // console.log(req.body, "postTaskMemberRemove")

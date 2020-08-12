@@ -153,6 +153,7 @@ class TaskPage extends Component {
       })
       .then((result) => {
         if (result.done) {
+          console.log(result,"##########")
           this.setState({ members :result.members});
         } else {
           alert(result.message);
